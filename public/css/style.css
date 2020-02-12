@@ -1,0 +1,23 @@
+.sidebar .logo {
+    font-size: 36px;
+}
+
+.invalid {
+    border-bottom: 1px solid #f44336;
+}
+
+.invalid ~ .helper-text {
+    color: #f44336;
+}
+
+.idea {
+    position: relative;
+}
+.idea .buttons {
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
+.idea .btn {
+    margin: 2px;
+}

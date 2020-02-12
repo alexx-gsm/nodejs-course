@@ -1,0 +1,25 @@
+extends ../layouts/main.pug
+
+include ../components/sidebar.pug
+
+block sidebar
+    +sidebar()
+    
+block content
+    .container
+        h2.center-align Video Ideas
+        ul.collection.ideas
+            each idea in ideas
+                li( class="collection-item idea")
+                    h5= idea.title
+                    p= idea.details
+                    .buttons
+                        a(href=`/ideas/edit/${idea._id}` class="btn btn-floating btn-small waves-effect waves-light teal")
+                            i(class="material-icons") edit
+                        form(method="post" action=`/ideas/${idea._id}?_method=DELETE`)
+                            input(type="hidden" name="_method" value="DELETE")
+                            button(type='submit' class="btn btn-floating btn-small waves-effect waves-light red")
+                                i(class="material-icons") clear
+        
+            else
+                p No video ideas listed

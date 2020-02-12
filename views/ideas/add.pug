@@ -1,0 +1,28 @@
+extends ../layouts/main.pug
+
+include ../components/sidebar.pug
+
+block sidebar
+    +sidebar()
+    
+block content
+    .container
+        h2.center-align= _id ? 'Edit Idea' : 'Video Idea'
+        form.col.s12(action="/ideas" method="post")
+            .row
+                .col.s6(class="offset-s3 input-field")
+                    input(id="title" type="text" name="title" class=(errors && errors.title) ? 'invalid' : '' value=title)
+                    label(for="title") Title
+                    if errors && errors.title
+                        span(class="helper-text")= errors.title
+            .row
+                .col.s6(class="offset-s3 input-field")
+                    textarea(id="details" name="details" class="materialize-textarea" class=(errors && errors.details) ? 'invalid' : '')= details
+                    label(for="details") Details
+                    if errors && errors.details
+                        span(class="helper-text")= errors.details
+                    if _id
+                        input(type='hidden' name='_id', value=_id)
+            .row
+                .col(class="offset-s3")
+                    button(class="btn waves-effect waves-light" type="submit")= _id ? 'Save' : 'Add'

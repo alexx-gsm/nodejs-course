@@ -1,0 +1,11 @@
+extends layouts/main.pug
+
+include components/sidebar.pug
+
+block sidebar
+    +sidebar()
+    
+block content
+    .container
+        h2= error
+        

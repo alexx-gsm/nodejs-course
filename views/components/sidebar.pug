@@ -1,0 +1,24 @@
+mixin sidebar
+    nav.sidebar
+        .container
+            div(class='nav-wrapper row')
+                .col
+                    a(href="/" class="logo") VidJet
+                .col.s3
+                    ul(id="nav-mobile" class="hide-on-med-and-down hide")
+                        li
+                            a(href="/") Home
+                        li
+                            a(href="/about") About
+
+                .col(class='offset-s6')
+                    ul(class="right")
+                        li
+                            a(class="dropdown-trigger" href="#!" data-target="sidebar-dropdown") Video Ideas
+                                i(class="material-icons right") arrow_drop_down
+                    ul(id="sidebar-dropdown" class="dropdown-content")
+                        li
+                            a(href="/ideas") Ideas
+                        li
+                            a(href="/ideas/add") Add Ideas
+                        
