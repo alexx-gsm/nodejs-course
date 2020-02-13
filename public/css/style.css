@@ -21,3 +21,13 @@
 .idea .btn {
     margin: 2px;
 }
+
+.message .wrapper {
+    margin-top: 18px;
+    padding: 16px;
+    background-color: lightblue;
+    border-radius: 5px;
+}
+.message .message-text {
+    color: #306163;
+}
