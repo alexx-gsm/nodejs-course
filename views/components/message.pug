@@ -1,6 +1,10 @@
 //- mixin message
 .message
-    if info.length !== 0
+    if info.length > 0
         .container
-            .wrapper
+            .info
                 .message-text= info
+    if error.length > 0
+        .container
+            .error
+                .message-text= error

@@ -1,0 +1,23 @@
+extends ../layouts/main.pug
+   
+block content
+    .container
+        .logo.center
+            img(src="/img/logo.png" alt="vidjot-logo" class='logo-img')
+        h3.center Account Login
+        form(action="/users/login" method="post")
+            .row
+                .col.s12.m8.l6(class="offset-m2 offset-l3 input-field")
+                    input(id="email" type="email" name="email" class=(errors && errors.email) ? 'invalid' : '' value=email)
+                    label(for="email") Email
+                    if errors && errors.email
+                        span(class="helper-text")= errors.email
+            .row
+                .col.s12.m8.l6(class="offset-m2 offset-l3 input-field")
+                    input(id="password" name="password" type='password' class=(errors && errors.password) ? 'invalid' : '' value=password)
+                    label(for="password") Password
+                    if errors && errors.password
+                        span(class="helper-text")= errors.password
+            .row
+                .col.s12.m8.l6(class="offset-m2 offset-l3 ")
+                    button(class="btn waves-effect waves-light" type="submit") Submit

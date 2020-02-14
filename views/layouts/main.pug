@@ -10,10 +10,9 @@ html
         link(rel="stylesheet", href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css")
         link(rel="stylesheet", href="/css/style.css")
   body
-    block sidebar
+    include ../components/sidebar.pug    
 
     include ../components/message.pug    
-    //- +message()
     
     block content
 

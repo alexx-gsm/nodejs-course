@@ -1,17 +1,19 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const path = require('path')
 // Middleware
 const bodyParser = require('body-parser')
 const methodOverride = require('method-override')
 const flash = require('connect-flash')
 const session = require('express-session')
+const passport = require('passport')
 
 // create app
 const app = express()
 const port = 5000
 
 // set static folder
-app.use(express.static('public'))
+app.use(express.static(path.join(__dirname, 'public')))
 
 // body-parser middleware
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -26,11 +28,18 @@ app.use(
         saveUninitialized: true,
     })
 )
+// Passport config
+require('./config/passport')(passport)
+app.use(passport.initialize())
+app.use(passport.session())
 
 app.use(flash())
 // global vars middleware
 app.use((req, res, next) => {
-    res.locals.info = req.flash('info')
+    res.locals.info = req.flash('info').join()
+    res.locals.error = req.flash('error').join()
+    res.locals.email = req.flash('email').join()
+    res.locals.user = req.user || null
     next()
 })
 
@@ -50,6 +59,7 @@ app.set('view engine', 'pug')
 // routes
 app.use('/', require('./routes'))
 app.use('/ideas', require('./routes/ideas'))
+app.use('/users', require('./routes/users'))
 
 // fireup server
 app.listen(port, () => console.log(`app is running on ${port}...`))

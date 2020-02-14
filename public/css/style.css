@@ -1,6 +1,13 @@
 .sidebar .logo {
     font-size: 36px;
 }
+.logo {
+    margin-top: 24px;
+}
+.logo-img {
+    width: 135px;
+    margin: auto;
+}
 
 .invalid {
     border-bottom: 1px solid #f44336;
@@ -22,12 +29,24 @@
     margin: 2px;
 }
 
-.message .wrapper {
+.message .info {
     margin-top: 18px;
     padding: 16px;
     background-color: lightblue;
     border-radius: 5px;
 }
-.message .message-text {
+.message .info .message-text {
     color: #306163;
+    text-transform: uppercase;
+}
+
+.message .error {
+    margin-top: 18px;
+    padding: 16px;
+    background-color: #f44336;
+    border-radius: 5px;
+}
+.message .error .message-text {
+    color: #580a14;
+    text-transform: uppercase;
 }

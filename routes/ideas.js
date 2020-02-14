@@ -1,13 +1,18 @@
 const express = require('express')
 const router = express.Router()
+const { ensureAuthenticated } = require('../helpers/auth')
 
 // load model
-const Idea = require('../../models/Idea')
+const Idea = require('../models/Idea')
 // validator
-const validate = require('../../models/Idea/validate')
+const validate = require('../models/Idea/validate')
 
-// Idea-list page
-router.get('/', async (req, res) => {
+/**
+ ** @route   GET /
+ *? @desc    Idea-list page
+ *! @access  Protected
+ */
+router.get('/', ensureAuthenticated, async (req, res) => {
     try {
         const ideas = await Idea.find()
 
@@ -18,13 +23,21 @@ router.get('/', async (req, res) => {
     }
 })
 
-// Add Idea Form page
-router.get('/add', (req, res) => {
+/**
+ ** @route   GET /add
+ *? @desc    Add Idea Form page
+ *! @access  Protected
+ */
+router.get('/add', ensureAuthenticated, (req, res) => {
     res.render('ideas/add', { title: '', details: '' })
 })
 
-// Edit Idea Form page
-router.get('/edit/:_id', async (req, res) => {
+/**
+ ** @route   GET /add
+ *? @desc    Edit Idea Form page
+ *! @access  Protected
+ */
+router.get('/edit/:_id', ensureAuthenticated, async (req, res) => {
     try {
         const { _id } = req.params
 
@@ -37,8 +50,12 @@ router.get('/edit/:_id', async (req, res) => {
     }
 })
 
-// Delete Idea Process
-router.delete('/:_id', async (req, res) => {
+/**
+ ** @route   DELETE /:_id
+ *? @desc    Delete Idea Process
+ *! @access  Protected
+ */
+router.delete('/:_id', ensureAuthenticated, async (req, res) => {
     try {
         const { _id } = req.params
 
@@ -52,8 +69,12 @@ router.delete('/:_id', async (req, res) => {
     }
 })
 
-// POST Form process
-router.post('/', async (req, res) => {
+/**
+ ** @route   POST /
+ *? @desc    Add/Edit Idea process
+ *! @access  Protected
+ */
+router.post('/', ensureAuthenticated, async (req, res) => {
     const { errors, isValid } = validate(req.body)
 
     const { title, details, _id } = req.body
