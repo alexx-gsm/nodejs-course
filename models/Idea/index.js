@@ -12,7 +12,7 @@ const IdeaSchema = new Schema({
     },
     author: {
         type: Schema.Types.ObjectId,
-        ref: 'users',
+        ref: 'User',
     },
     date: {
         type: Date,
@@ -20,4 +20,4 @@ const IdeaSchema = new Schema({
     },
 })
 
-module.exports = Ideas = mongoose.model('ideas', IdeaSchema)
+module.exports = Idea = mongoose.model('idea', IdeaSchema)
