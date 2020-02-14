@@ -10,6 +10,10 @@ const IdeaSchema = new Schema({
         type: String,
         require: true,
     },
+    author: {
+        type: Schema.Types.ObjectId,
+        ref: 'users',
+    },
     date: {
         type: Date,
         default: Date.now,

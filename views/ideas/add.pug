@@ -2,7 +2,7 @@ extends ../layouts/main.pug
    
 block content
     .container
-        h2.center-align= _id ? 'Edit Idea' : 'Video Idea'
+        h2.center-align= id ? 'Edit Idea' : 'Video Idea'
         form.col.s12(action="/ideas" method="post")
             .row
                 .col.s12.m8.l6(class="offset-m2 offset-l3 input-field")
@@ -16,8 +16,8 @@ block content
                     label(for="details") Details
                     if errors && errors.details
                         span(class="helper-text")= errors.details
-                    if _id
-                        input(type='hidden' name='_id', value=_id)
+                    if id
+                        input(type='hidden' name='id', value=id)
             .row
                 .col.s12.m8.l6(class="offset-m2 offset-l3 input-field")
-                    button(class="btn waves-effect waves-light" type="submit")= _id ? 'Save' : 'Add'
+                    button(class="btn waves-effect waves-light" type="submit")= id ? 'Save' : 'Add'

@@ -14,7 +14,7 @@ const validate = require('../models/Idea/validate')
  */
 router.get('/', ensureAuthenticated, async (req, res) => {
     try {
-        const ideas = await Idea.find()
+        const ideas = await Idea.find({ author: req.user })
 
         res.render('ideas/index', { ideas })
     } catch (error) {
@@ -33,36 +33,22 @@ router.get('/add', ensureAuthenticated, (req, res) => {
 })
 
 /**
- ** @route   GET /add
+ ** @route   GET /edit/:id
  *? @desc    Edit Idea Form page
  *! @access  Protected
  */
-router.get('/edit/:_id', ensureAuthenticated, async (req, res) => {
+router.get('/edit/:id', ensureAuthenticated, async (req, res) => {
     try {
-        const { _id } = req.params
+        const { id } = req.params
 
-        const { title, details } = await Idea.findById(_id)
+        const { title, details, author } = await Idea.findById(id)
 
-        res.render('ideas/add', { title, details, _id })
-    } catch (error) {
-        console.log('error', error)
-        res.render('error', { error: 'Server error' })
-    }
-})
-
-/**
- ** @route   DELETE /:_id
- *? @desc    Delete Idea Process
- *! @access  Protected
- */
-router.delete('/:_id', ensureAuthenticated, async (req, res) => {
-    try {
-        const { _id } = req.params
-
-        await Idea.findByIdAndDelete(_id)
-
-        req.flash('info', 'Video idea deleted')
-        res.redirect('/ideas')
+        if (!author.equals(req.user.id)) {
+            req.flash('error', '---Not Authorized')
+            res.redirect('/ideas')
+        } else {
+            res.render('ideas/add', { title, details, id })
+        }
     } catch (error) {
         console.log('error', error)
         res.render('error', { error: 'Server error' })
@@ -77,7 +63,7 @@ router.delete('/:_id', ensureAuthenticated, async (req, res) => {
 router.post('/', ensureAuthenticated, async (req, res) => {
     const { errors, isValid } = validate(req.body)
 
-    const { title, details, _id } = req.body
+    const { title, details, id } = req.body
 
     // validate form data
     if (!isValid) {
@@ -85,17 +71,50 @@ router.post('/', ensureAuthenticated, async (req, res) => {
     }
 
     try {
-        if (_id) {
-            await Idea.findByIdAndUpdate(_id, {
-                $set: { title, details },
-            })
+        if (id) {
+            const { author } = await Idea.findById(id).select('author')
 
-            req.flash('info', 'Video idea updated')
-            res.redirect('/ideas')
+            if (author.equals(req.user.id)) {
+                await Idea.findByIdAndUpdate(id, {
+                    $set: { title, details },
+                })
+
+                req.flash('info', 'Video idea updated')
+                res.redirect('/ideas')
+            } else {
+                req.flash('error', 'Not Authorized')
+                res.redirect('/ideas')
+            }
         } else {
-            await new Idea({ title, details }).save()
+            await new Idea({ title, details, author: req.user }).save()
 
             req.flash('info', 'Video idea created')
+            res.redirect('/ideas')
+        }
+    } catch (error) {
+        console.log('error', error)
+        res.render('error', { error: 'Server error' })
+    }
+})
+
+/**
+ ** @route   DELETE /:id
+ *? @desc    Delete Idea Process
+ *! @access  Protected
+ */
+router.delete('/:id', ensureAuthenticated, async (req, res) => {
+    try {
+        const { id } = req.params
+
+        const { author } = await Idea.findById(id).select('author')
+
+        if (author.equals(req.user.id)) {
+            await Idea.findByIdAndDelete(id)
+
+            req.flash('info', 'Video idea deleted')
+            res.redirect('/ideas')
+        } else {
+            req.flash('error', 'Not Authorized')
             res.redirect('/ideas')
         }
     } catch (error) {

@@ -9,9 +9,9 @@ block content
                     h5= idea.title
                     p= idea.details
                     .buttons
-                        a(href=`/ideas/edit/${idea._id}` class="btn btn-floating btn-small waves-effect waves-light teal")
+                        a(href=`/ideas/edit/${idea.id}` class="btn btn-floating btn-small waves-effect waves-light teal")
                             i(class="material-icons") edit
-                        form(method="post" action=`/ideas/${idea._id}?_method=DELETE`)
+                        form(method="post" action=`/ideas/${idea.id}?_method=DELETE`)
                             input(type="hidden" name="_method" value="DELETE")
                             button(type='submit' class="btn btn-floating btn-small waves-effect waves-light red")
                                 i(class="material-icons") clear
