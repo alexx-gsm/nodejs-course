@@ -10,7 +10,7 @@ const passport = require('passport')
 
 // create app
 const app = express()
-const port = 5000
+const port = process.env.PORT || 5000
 
 // set static folder
 app.use(express.static(path.join(__dirname, 'public')))
@@ -30,6 +30,7 @@ app.use(
 )
 // Passport config
 require('./config/passport')(passport)
+// passport middleware
 app.use(passport.initialize())
 app.use(passport.session())
 
@@ -42,10 +43,11 @@ app.use((req, res, next) => {
     res.locals.user = req.user || null
     next()
 })
-
+// mongoDB config
+const { mongoURI } = require('./config/db')
 // mongoDB
 mongoose
-    .connect('mongodb://localhost/vidjot', {
+    .connect(mongoURI, {
         useNewUrlParser: true,
         useUnifiedTopology: true,
         useFindAndModify: false,
