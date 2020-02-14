@@ -10,4 +10,12 @@
 
 ---
 
-**_Thanks to:_** [Traversymedia](https://traversymedia.com/)
+## Heroku deploying
+
+**_see here:_** [Heroku](https://agile-mesa-53995.herokuapp.com/)
+
+---
+
+## Thanks
+
+**_to:_** [Traversymedia](https://traversymedia.com/)
